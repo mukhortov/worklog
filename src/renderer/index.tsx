@@ -1,9 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import App from './App';
 
-const container = document.getElementById('root')!;
-const root = createRoot(container);
-root.render(<App />);
+createRoot(document.getElementById('root') as Element).render(<App />);
 
 // calling IPC exposed from preload script
 window.electron.ipcRenderer.once('ipc-example', (arg) => {
