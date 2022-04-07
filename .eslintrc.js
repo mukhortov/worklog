@@ -1,14 +1,16 @@
 module.exports = {
-  extends: 'erb',
+  // extends: 'erb',
+  extends: ['erb', 'plugin:prettier/recommended'],
   rules: {
     // A temporary hack related to IDE not resolving correct package.json
     'import/no-extraneous-dependencies': 'off',
     'import/no-unresolved': 'error',
     // Since React 17 and typescript 4.1 you can safely disable the rule
     'react/react-in-jsx-scope': 'off',
+    // 'prettier/prettier': 'off',
   },
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2021,
     sourceType: 'module',
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
@@ -27,4 +29,4 @@ module.exports = {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
   },
-};
+}
