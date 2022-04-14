@@ -72,10 +72,17 @@ const createWindow = async () => {
     show: false,
     width: 1024,
     height: 728,
+    minWidth: 600,
+    minHeight: 400,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged ? path.join(__dirname, 'preload.js') : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
+    // Translucent window
+    transparent: true,
+    frame: false,
+    vibrancy: 'ultra-dark',
+    titleBarStyle: 'hiddenInset',
   })
 
   mainWindow.loadURL(resolveHtmlPath('index.html'))
