@@ -1,3 +1,4 @@
+import { StrictMode } from 'react'
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom'
 import icon from '../../assets/icon.svg'
 import styles from './App.sass'
@@ -25,10 +26,12 @@ const Hello = () => {
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Hello />} />
-      </Routes>
-    </Router>
+    <StrictMode>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Hello />} />
+        </Routes>
+      </Router>
+    </StrictMode>
   )
 }
