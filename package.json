@@ -52,23 +52,26 @@
       },
       "type": "distribution",
       "hardenedRuntime": true,
+      "gatekeeperAssess": false,
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
-      "gatekeeperAssess": false
+      "provisioningProfile": "assets/embedded.provisionprofile",
+      "category": "public.app-category.utilities"
     },
     "dmg": {
       "contents": [
         {
-          "x": 130,
-          "y": 220
+          "x": 120,
+          "y": 150
         },
         {
-          "x": 410,
-          "y": 220,
+          "x": 380,
+          "y": 150,
           "type": "link",
           "path": "/Applications"
         }
-      ]
+      ],
+      "background": "assets/dmg.png"
     },
     "win": {
       "target": [
@@ -148,6 +151,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.0",
     "@types/jest": "^27.4.1",
+    "@types/luxon": "^2.3.1",
     "@types/node": "17.0.23",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
@@ -212,9 +216,11 @@
   },
   "dependencies": {
     "electron-debug": "^3.2.0",
+    "electron-fetch": "^1.7.4",
     "electron-log": "^4.4.6",
     "electron-updater": "^4.6.5",
     "history": "^5.3.0",
+    "luxon": "^2.3.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0"

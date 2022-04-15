@@ -1,0 +1,33 @@
+.row
+  display: grid
+  grid-auto-flow: column
+  grid-template-columns: 100px 1fr
+  margin: 0 0 8px
+  gap: 0 8px
+  text-align: left
+  align-items: center
+  position: relative
+
+.label
+  text-align: right
+  font-size: 12px
+
+.field
+  display: grid
+  grid-auto-flow: column
+  grid-template-columns: 1fr auto
+  align-items: center
+  grid-row: 1
+
+.rightContent
+  margin-left: 8px
+
+.info,
+.error
+  grid-row: 3
+  font-size: 10px
+  margin: 6px 0 0
+
+.error
+  grid-row: 2
+  color: #ff8484

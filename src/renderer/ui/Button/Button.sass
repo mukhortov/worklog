@@ -1,0 +1,61 @@
+@import 'renderer/styles/mixins'
+
+.button
+  background: #3671D0
+  border: none
+  color: #fff
+  padding: 0 8px
+  border-radius: 3px
+  height: 26px
+  white-space: nowrap
+  display: inline-flex
+  align-items: center
+  gap: 0 6px
+
+  &:hover
+    background: #27559F
+
+  &:focus
+    outline: 0
+    box-shadow: 0 0 1px 2px #36628A
+    border-color: transparent
+
+  &:disabled
+    background: #3671D0
+    opacity: 0.5
+
+.secondary
+  background: #545454
+
+  &:hover
+    background: #474747
+
+.danger
+  background: #842929
+
+  &:hover
+    background: #6e1f1f
+
+.processing
+  position: relative
+  overflow: hidden
+  pointer-events: none
+
+  &::before
+    content: ""
+    background-color: inherit
+    border: inherit
+    position: absolute
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+
+  &:after
+    content: ""
+    position: absolute
+    display: flex
+    justify-content: center
+    align-items: center
+    left: calc(50% - 5px)
+    @include loader-animation(1, #fff)

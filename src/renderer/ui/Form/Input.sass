@@ -1,0 +1,76 @@
+@import 'renderer/styles/mixins'
+
+.container
+  display: inline-block
+  width: auto
+  position: relative
+
+input
+  &[type="text"],
+  &[type="button"],
+  &[type="password"],
+  &[type="number"],
+  &[type="email"],
+  &[type="date"],
+  &[type="week"],
+  &[type="datetime-local"]
+    width: 100%
+    background: #3a3a3a
+    border: 1px solid #444
+    border-radius: 3px
+    color: #fff
+    padding: 4px 8px
+    color-scheme: dark
+    font-family: inherit
+    height: 26px
+
+  &::placeholder
+    color: rgba(#fff, 0.35)
+
+  &:focus
+    outline: 0
+    box-shadow: 0 0 1px 2px #36628A
+    border-color: transparent
+
+  &:disabled
+    color: #aaa
+
+input
+  &[type="date"],
+  &[type="week"],
+  &[type="datetime-local"]
+    padding-right: 4px
+
+.valid,
+.invalid,
+.processing
+  &:after
+    content: "\2713" // ✓
+    color: #45cc45
+    font-size: 12px
+    position: absolute
+    right: 0
+    top: 0
+    display: flex
+    align-items: center
+    justify-content: center
+    height: 26px
+    width: 26px
+
+  input
+    padding-right: 22px
+
+.invalid
+  &:after
+    content: "!"
+    color: #ff8484
+
+  input
+    border: 1px solid rgba(#ff8484, 0.2)
+
+.processing
+  &:after
+    content: ""
+    right: 18px
+    top: 9px
+    @include loader-animation(1, #ccc)
