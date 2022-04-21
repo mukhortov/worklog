@@ -8,8 +8,6 @@
  */
 import path from 'path'
 import { app, BrowserWindow, shell, ipcMain, nativeTheme, session } from 'electron'
-import { autoUpdater } from 'electron-updater'
-import log from 'electron-log'
 import { formatLongISODateTime } from '../service/date'
 import MenuBuilder from './menu'
 import { resolveHtmlPath } from './util'
@@ -27,14 +25,6 @@ import {
   serverInfo,
   testIssuesKey,
 } from './api'
-
-export default class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info'
-    autoUpdater.logger = log
-    autoUpdater.checkForUpdatesAndNotify()
-  }
-}
 
 let mainWindow: BrowserWindow | null = null
 
@@ -142,10 +132,6 @@ const createWindow = async () => {
 
   // Force dark mode
   nativeTheme.themeSource = 'dark'
-
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater()
 }
 
 /**
