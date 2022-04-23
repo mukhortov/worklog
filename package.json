@@ -44,9 +44,10 @@
     "afterSign": ".erb/scripts/notarize.js",
     "mac": {
       "target": {
-        "target": "mas",
+        "target": "default",
         "arch": [
-          "x64"
+          "x64",
+          "arm64"
         ]
       },
       "type": "distribution",
@@ -54,12 +55,17 @@
       "gatekeeperAssess": false,
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
-      "entitlementsLoginHelper": "assets/entitlements.mac.plist",
       "provisioningProfile": "assets/embedded.provisionprofile",
-      "category": "public.app-category.utilities",
-      "cscKeyPassword": "1st-p-x",
+      "category": "public.app-category.productivity",
+      "cscKeyPassword": "**1st**",
       "cscLink": "assets/certificates.p12",
       "identity": "Petr Mukhortov (2S7328Q3CX)"
+    },
+    "mas": {
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "entitlements": "assets/entitlements.mas.plist",
+      "entitlementsInherit": "assets/entitlements.mas.plist"
     },
     "dmg": {
       "contents": [
@@ -172,8 +178,8 @@
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^3.4.1",
     "detect-port": "^1.3.0",
-    "electron": "^18.0.3",
-    "electron-builder": "22.14.13",
+    "electron": "^18.1.0",
+    "electron-builder": "23.0.3",
     "electron-devtools-installer": "^3.2.0",
     "electron-notarize": "^1.2.1",
     "electron-rebuild": "^3.2.7",
