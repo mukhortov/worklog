@@ -1,6 +1,6 @@
 {
   "name": "Worklog",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Jira Worklog app",
   "main": "./dist/main/main.js",
   "author": {

@@ -32,6 +32,7 @@
     ]
   },
   "build": {
+    "buildVersion": "2",
     "productName": "Worklog",
     "appId": "com.mukhortov.worklog.app",
     "asar": true,
@@ -55,17 +56,16 @@
       "gatekeeperAssess": false,
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
-      "provisioningProfile": "assets/embedded.provisionprofile",
+      "provisioningProfile": "assets/Worklog_Distributioin.provisionprofile",
       "category": "public.app-category.productivity",
-      "cscKeyPassword": "**1st**",
-      "cscLink": "assets/certificates.p12",
       "identity": "Petr Mukhortov (2S7328Q3CX)"
     },
     "mas": {
-      "hardenedRuntime": false,
+      "hardenedRuntime": true,
       "gatekeeperAssess": false,
       "entitlements": "assets/entitlements.mas.plist",
-      "entitlementsInherit": "assets/entitlements.mas.plist"
+      "entitlementsInherit": "assets/entitlements.mas.inherit.plist",
+      "entitlementsLoginHelper": "assets/entitlements.mas.helper.plist"
     },
     "dmg": {
       "contents": [
