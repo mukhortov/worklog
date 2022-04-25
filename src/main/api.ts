@@ -12,12 +12,17 @@ enum Method {
   DELETE = 'DELETE',
 }
 
-const api = async <T>(url: string, method: Method = Method.GET, body?: { [key: string]: unknown }): Promise<T> => {
+const api = async <T>(
+  url: string,
+  method: Method = Method.GET,
+  body?: { [key: string]: unknown },
+): Promise<T | undefined> => {
   const account = await getAccount()
 
   if (!account) {
     // No account saved. Don't do anything.
-    throw new Error('No saved account')
+    // throw new Error('No saved account')
+    return undefined
   }
 
   const requestUrl = account.baseUrl + `/rest/api/3/${url}`.replace('//', '/')
@@ -70,10 +75,10 @@ export const getJiraSettings = async () => {
   const account = await getAccount()
 
   return api<JiraSettingsResponse>('configuration').then(
-    ({ timeTrackingEnabled, timeTrackingConfiguration }) =>
+    settings =>
       ({
-        timeTrackingEnabled,
-        ...timeTrackingConfiguration,
+        timeTrackingEnabled: settings?.timeTrackingEnabled,
+        ...settings?.timeTrackingConfiguration,
         baseUrl: account?.baseUrl,
       } as JiraSettings),
   )
@@ -94,7 +99,7 @@ export const getIssues = (startDate: string, endDate: string) => {
   )
 
   return api<IssuesResponse>(`search?jql=${jql}`).then(data =>
-    data.issues.map(({ id, self, key, fields }) => ({ id, self, key, ...fields } as Issue)),
+    data?.issues.map(({ id, self, key, fields }) => ({ id, self, key, ...fields } as Issue)),
   )
 }
 
@@ -134,7 +139,7 @@ export const searchIssue = (query: string) => {
   )
 
   return api<SearchIssueResponse>(`issue/picker?query=${queryString}`).then(result =>
-    result.sections?.flatMap(section => section?.issues),
+    result?.sections?.flatMap(section => section?.issues),
   )
 }
 
@@ -144,5 +149,5 @@ export const searchIssue = (query: string) => {
 
 export const getRecentIssues = () =>
   api<SearchIssueResponse>('issue/picker?showSubTasks=true&showSubTaskParent=true').then(result =>
-    result.sections?.flatMap(section => section?.issues),
+    result?.sections?.flatMap(section => section?.issues),
   )

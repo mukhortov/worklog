@@ -35,8 +35,6 @@ export const AddWorklog = ({ onClose, worklog }: AddWorklogProps) => {
 
   const minSearchQuery = 3
 
-  // TODO: Format URL. Add https// if missing. Remove trailing slash and query string.
-
   const testIssueKey = useCallback(
     (testKey: string) => {
       if (worklog || testKey === undefined || testKey.length <= minSearchQuery || issueKeyStatus?.valid) {
