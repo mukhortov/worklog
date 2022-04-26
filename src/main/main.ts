@@ -141,9 +141,15 @@ const createWindow = async () => {
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+
+  // From App Store review:
+  // > We found that when the user closes the main application window there is no menu item to re-open it.
+  // > It would be appropriate for the app to implement a Window menu that lists the main window so it can be reopened, or provide similar functionality in another menu item.
+  // > Alternatively, if the application is a single-window app, it might be appropriate to save data and quit the app when the main window is closed.
+
+  // if (process.platform !== 'darwin') {
+  app.quit()
+  // }
 })
 
 app

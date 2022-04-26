@@ -9,6 +9,7 @@
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
     "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
     "package": "ts-node ./.erb/scripts/clean.js dist && yarn build && electron-builder build --publish never",
+    "package-mas": "yarn package --x64 --mac mas",
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && yarn start:renderer",
     "start:main": "cross-env NODE_ENV=development electron -r ts-node/register/transpile-only ./src/main/main.ts",
@@ -32,9 +33,10 @@
     ]
   },
   "build": {
-    "buildVersion": "2",
+    "buildVersion": "5",
     "productName": "Worklog",
     "appId": "com.mukhortov.worklog.app",
+    "artifactName": "${productName}-${version}-${buildVersion}-${arch}.${ext}",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -57,7 +59,6 @@
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
       "provisioningProfile": "assets/Worklog_Distributioin.provisionprofile",
-      "category": "public.app-category.productivity",
       "identity": "Petr Mukhortov (2S7328Q3CX)"
     },
     "mas": {
@@ -65,7 +66,9 @@
       "gatekeeperAssess": false,
       "entitlements": "assets/entitlements.mas.plist",
       "entitlementsInherit": "assets/entitlements.mas.inherit.plist",
-      "entitlementsLoginHelper": "assets/entitlements.mas.helper.plist"
+      "entitlementsLoginHelper": "assets/entitlements.mas.helper.plist",
+      "category": "public.app-category.productivity",
+      "identity": "Petr Mukhortov (2S7328Q3CX)"
     },
     "dmg": {
       "contents": [
@@ -121,9 +124,13 @@
     "url": "https://github.com/mukhortov/worklog3/issues"
   },
   "keywords": [
-    "jira",
     "worklog",
-    "electron"
+    "worklogs",
+    "work log",
+    "time tracking",
+    "jira",
+    "jira worklog",
+    "jira time tracking"
   ],
   "homepage": "https://github.com/mukhortov/worklog3#readme",
   "jest": {
