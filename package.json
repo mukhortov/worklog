@@ -112,7 +112,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mukhortov/worklog3.git"
+    "url": "git+https://github.com/mukhortov/worklog.git"
   },
   "author": {
     "name": "Peter Mukhortov",
@@ -121,7 +121,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mukhortov/worklog3/issues"
+    "url": "https://github.com/mukhortov/worklog/issues"
   },
   "keywords": [
     "worklog",
@@ -132,7 +132,7 @@
     "jira worklog",
     "jira time tracking"
   ],
-  "homepage": "https://github.com/mukhortov/worklog3#readme",
+  "homepage": "https://github.com/mukhortov/worklog#readme",
   "jest": {
     "testURL": "http://localhost/",
     "testEnvironment": "jsdom",
