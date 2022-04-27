@@ -42,7 +42,7 @@ export default class MenuBuilder {
 
   buildDarwinTemplate(): MenuItemConstructorOptions[] {
     const subMenuAbout: DarwinMenuItemConstructorOptions = {
-      label: 'Electron',
+      label: 'Worklog',
       submenu: [
         {
           label: 'About Worklog',
@@ -145,25 +145,7 @@ export default class MenuBuilder {
         {
           label: 'Learn More',
           click() {
-            shell.openExternal('https://electronjs.org')
-          },
-        },
-        {
-          label: 'Documentation',
-          click() {
-            shell.openExternal('https://github.com/electron/electron/tree/main/docs#readme')
-          },
-        },
-        {
-          label: 'Community Discussions',
-          click() {
-            shell.openExternal('https://www.electronjs.org/community')
-          },
-        },
-        {
-          label: 'Search Issues',
-          click() {
-            shell.openExternal('https://github.com/electron/electron/issues')
+            shell.openExternal('https://mukhortov.com/worklog.app')
           },
         },
       ],
@@ -236,25 +218,7 @@ export default class MenuBuilder {
           {
             label: 'Learn More',
             click() {
-              shell.openExternal('https://electronjs.org')
-            },
-          },
-          {
-            label: 'Documentation',
-            click() {
-              shell.openExternal('https://github.com/electron/electron/tree/main/docs#readme')
-            },
-          },
-          {
-            label: 'Community Discussions',
-            click() {
-              shell.openExternal('https://www.electronjs.org/community')
-            },
-          },
-          {
-            label: 'Search Issues',
-            click() {
-              shell.openExternal('https://github.com/electron/electron/issues')
+              shell.openExternal('https://mukhortov.com/worklog.app')
             },
           },
         ],

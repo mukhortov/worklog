@@ -1,0 +1,86 @@
+@import 'renderer/styles/mixins'
+
+.container
+  position: absolute
+  display: flex
+  align-items: center
+  justify-content: center
+  top: 0
+  right: 0
+  bottom: 0
+  left: 0
+  @include backdrop(rgba(#000, 0.6))
+
+.window
+  position: relative
+  min-width: 300px
+  // min-height: 200px
+  background: #333
+  border-radius: 8px
+  box-shadow: 0 5px 45px 0 rgba(#000, 0.4)
+
+.header
+  display: flex
+  background: rgba(#222, 0.4)
+  height: 30px
+  align-items: center
+  justify-content: center
+  border-bottom: 1px solid rgba(#000, 0.1)
+  font-weight: 600
+  user-select: none
+
+.title
+  margin: 0 65px
+  display: inline-block
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+.content
+  padding: 16px
+
+.close,
+.minimize,
+.expand,
+.disabled
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 12px
+  height: 12px
+  text-align: center
+  border-radius: 50%
+  font-size: 16px
+  font-weight: 300
+  background: #ED6A5E
+  color: rgba(#000, 0.6)
+
+.minimize
+  background: #61C554
+  color: #61C554
+
+.expand
+  background: #61C554
+  color: #61C554
+
+.action
+  position: absolute
+  top: 0
+  left: 8px
+  height: 30px
+  display: flex
+  align-items: center
+  gap: 6px
+
+  svg
+    display: none
+
+  &:hover svg
+    display: block
+
+  .disabled
+    background: #5B5B5B
+
+    svg
+      display: none
+

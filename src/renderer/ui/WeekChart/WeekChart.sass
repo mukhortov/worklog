@@ -1,0 +1,114 @@
+.container
+  display: grid
+  grid-auto-flow: column
+  grid-auto-columns: 42px
+  gap: 0 4px
+  width: max-content
+  overflow-x: auto
+  margin: auto
+  padding: 0 4px 14px
+  align-items: end
+  user-select: none
+
+.day
+  min-height: 190px
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+  align-items: center
+  position: relative
+  cursor: default
+
+.dayPlaceholder
+  content: ""
+  position: absolute
+  box-sizing: content-box
+  // height: 136px
+  padding: 3px 0
+  right: 4px
+  bottom: 30px
+  left: 4px
+  border-radius: 6px
+  background: rgba(#000, 0.14)
+  box-shadow: inset 0 0 1px rgba(#000, 0.3)
+
+.date
+  text-align: center
+  font-size: 10px
+  height: 33px
+  display: flex
+  align-items: flex-end
+  line-height: 1.3
+
+.hourBar
+  cursor: pointer
+
+.hour
+  font-size: 10px
+  text-align: center
+  padding: 8px 0
+  position: relative
+
+.bar
+  background: #545454
+  // background: linear-gradient(to top, rgba(52,186,164,1) 0%, rgba(23,93,214,1) 136px, rgba(192,40,230,0.5) 180px)
+  background: linear-gradient(to top, #00bbf9 0%, #09dedb 130px, #f15bb5 180px)
+  box-shadow: 0 0 0 3px #2d2d2d
+  width: 28px
+  border-radius: 4px
+  position: relative
+
+.weekend
+  .dayPlaceholder
+    background: rgba(#000, 0.05)
+    box-shadow: inset 0 0 2px rgba(#000, 0.3)
+
+  .date
+    opacity: 0.6
+
+.today
+  .date
+    color: #ff8484
+    font-weight: bold
+
+
+.worklogsMenu
+  padding: 4px
+  font-size: 10px
+
+  h3
+    margin: 4px
+    padding-bottom: 8px
+    color: #aaa
+    font-weight: normal
+    border-bottom: 1px solid #333
+
+// TODO: Sync with AddWorklog.sass
+.worklog
+  padding: 4px
+  cursor: pointer
+  white-space: nowrap
+  overflow: hidden
+  display: flex
+  align-items: center
+  gap: 0 6px
+
+  &:hover
+    background: #99c8ff
+    color: #222
+
+  img
+    width: 16px
+    height: 16px
+
+  .timeSpent
+    flex: 0 0 36px
+    background: rgba(#fff, 0.1)
+    padding: 4px
+    text-align: center
+
+.summary
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+  max-width: 100%

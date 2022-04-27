@@ -1,49 +1,41 @@
-/*
- * @NOTE: Prepend a `~` to css file paths that are in your node_modules
- *        See https://github.com/webpack-contrib/sass-loader#imports
- */
-body
-  position: relative
-  color: white
-  height: 100vh
-  background: linear-gradient(200.96deg, #fedc2a -29.09%, #dd5789 51.77%, #7a2c9e 129.35%)
-  font-family: sans-serif
-  overflow-y: hidden
-  display: flex
-  justify-content: center
-  align-items: center
+*,
+*:before,
+*:after
+  box-sizing: border-box
+  user-select: none
+  -webkit-user-drag: none
 
-button
-  background-color: white
-  padding: 10px 20px
-  border-radius: 10px
-  border: none
-  appearance: none
-  font-size: 1.3rem
-  box-shadow: 0px 8px 28px -6px rgba(24, 39, 75, 0.12), 0px 18px 88px -4px rgba(24, 39, 75, 0.14)
-  transition: all ease-in 0.1s
-  cursor: pointer
-  opacity: 0.9
-
-button:hover
-  transform: scale(1.05)
-  opacity: 1
-
-li
-  list-style: none
+html,
+body,
+body > main
+  margin: 0
+  padding: 0
+  height: 100%
+  font-size: 14px
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif
+  background: #333
+  color: #ccc
 
 a
+  cursor: pointer
+  color: #fff
   text-decoration: none
-  height: fit-content
-  width: fit-content
-  margin: 10px
+  border-bottom: 1px dotted rgba(#fff, 0.35)
 
-a:hover
-  opacity: 1
-  text-decoration: none
+  &:hover
+    border-bottom: 1px solid #fff
 
-.Hello
+.app
   display: flex
-  justify-content: center
+  flex-direction: column
   align-items: center
-  margin: 20px 0
+  justify-content: center
+  height: 100%
+  min-width: 400px
+  min-height: 300px
+
+.main
+  display: flex
+  width: 100%
+  margin: auto
+  padding: 16px

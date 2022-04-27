@@ -1,5 +1,3 @@
-/* eslint global-require: off, no-console: off, promise/always-return: off */
-
 /**
  * This module executes inside of electron's main process. You can start
  * electron renderer process from here and communicate with the other processes
@@ -9,19 +7,24 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path'
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
-import { autoUpdater } from 'electron-updater'
-import log from 'electron-log'
+import { app, BrowserWindow, shell, ipcMain, nativeTheme, session } from 'electron'
+import { formatLongISODateTime } from '../service/date'
 import MenuBuilder from './menu'
 import { resolveHtmlPath } from './util'
-
-export default class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info'
-    autoUpdater.logger = log
-    autoUpdater.checkForUpdatesAndNotify()
-  }
-}
+import { Account, getAccount, removeAccount, saveAccount } from './account'
+import {
+  addWorklog,
+  deleteWorklog,
+  editWorklog,
+  getCurrentUser,
+  getIssues,
+  getIssueWorklogs,
+  getJiraSettings,
+  getRecentIssues,
+  searchIssue,
+  serverInfo,
+  testIssuesKey,
+} from './api'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -70,12 +73,17 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    height: 400,
+    width: 600,
+    minHeight: 360,
+    minWidth: 460,
     icon: getAssetPath('icon.png'),
     webPreferences: {
-      preload: app.isPackaged ? path.join(__dirname, 'preload.js') : path.join(__dirname, '../../.erb/dll/preload.js'),
+      // preload: app.isPackaged ? path.join(__dirname, 'preload.js') : path.join(__dirname, '../../.erb/dll/preload.js'),
+      nodeIntegration: true,
+      contextIsolation: false,
     },
+    backgroundColor: '#333',
   })
 
   mainWindow.loadURL(resolveHtmlPath('index.html'))
@@ -104,9 +112,26 @@ const createWindow = async () => {
     return { action: 'deny' }
   })
 
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater()
+  // Allow loading external images
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': ['img-src *'],
+      },
+    })
+  })
+
+  // Check if there're any saved accounts
+  // TODO: Can be run on app start not on window creation
+  mainWindow.webContents.on('did-finish-load', async () => {
+    if (!(await getAccount())) {
+      mainWindow?.webContents.send('request-log-in')
+    }
+  })
+
+  // Force dark mode
+  nativeTheme.themeSource = 'dark'
 }
 
 /**
@@ -116,9 +141,15 @@ const createWindow = async () => {
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+
+  // From App Store review:
+  // > We found that when the user closes the main application window there is no menu item to re-open it.
+  // > It would be appropriate for the app to implement a Window menu that lists the main window so it can be reopened, or provide similar functionality in another menu item.
+  // > Alternatively, if the application is a single-window app, it might be appropriate to save data and quit the app when the main window is closed.
+
+  // if (process.platform !== 'darwin') {
+  app.quit()
+  // }
 })
 
 app
@@ -132,3 +163,75 @@ app
     })
   })
   .catch(console.log)
+
+/// Renderer Events
+
+ipcMain.handle('set-title', (_, { title }) => {
+  BrowserWindow?.getFocusedWindow()?.setTitle(title)
+})
+
+ipcMain.handle('get-server-settings', (_, serverUrl) => serverInfo(serverUrl))
+
+ipcMain.handle('get-issues', (_, { startDate, endDate }) => {
+  console.log('[main]:', 'get-issues')
+  console.log({ startDate, endDate })
+  return getIssues(startDate, endDate)
+})
+
+ipcMain.handle('get-issue-worklogs', (_, { issueKey, startDate, endDate }) => {
+  console.log('[main]:', 'get-issue-worklogs')
+  console.log({ issueKey, startDate, endDate })
+  return getIssueWorklogs(issueKey, startDate, endDate)
+})
+
+ipcMain.handle('get-jira-settings', () => {
+  console.log('[main]:', 'get-jira-settings')
+  return getJiraSettings()
+})
+
+ipcMain.handle('get-current-user', () => {
+  console.log('[main]:', 'get-current-user')
+  return getCurrentUser()
+})
+
+ipcMain.handle('save-account', (_, { baseUrl, encodedKey }: Account) =>
+  saveAccount(baseUrl, encodedKey).then(() =>
+    getCurrentUser().catch(error => {
+      removeAccount()
+      throw error
+    }),
+  ),
+)
+
+ipcMain.handle('remove-account', () => removeAccount())
+
+ipcMain.handle('test-issue-key', (_, issueKey) => {
+  return testIssuesKey(issueKey)
+})
+
+ipcMain.handle('search-issues', (_, searchQuery) => {
+  console.log('[main]:', 'search-issue')
+  console.log(searchQuery)
+  return searchIssue(searchQuery)
+})
+
+ipcMain.handle('get-resent-issues', () => {
+  console.log('[main]:', 'get-resent-issues')
+  return getRecentIssues()
+})
+
+ipcMain.handle('add-worklog', (_, { issueKey, started, timeSpent }) => {
+  console.log('[main]:', 'log-work')
+  console.log({ issueKey, started: formatLongISODateTime(started), timeSpent })
+  return addWorklog(issueKey, formatLongISODateTime(started), timeSpent)
+})
+
+ipcMain.handle('edit-worklog', (_, { worklogId, issueKey, started, timeSpent }) => {
+  console.log({ worklogId, issueKey, started: formatLongISODateTime(started), timeSpent })
+  return editWorklog(worklogId, issueKey, formatLongISODateTime(started), timeSpent)
+})
+
+ipcMain.handle('delete-worklog', (_, { worklogId, issueKey }) => {
+  console.log({ worklogId, issueKey })
+  return deleteWorklog(worklogId, issueKey)
+})
