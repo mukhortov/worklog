@@ -8,7 +8,7 @@ import type { Issue, WorklogsPayload } from 'model/Issue'
 import type { Worklog } from 'model/Worklog'
 import { WeekChart } from 'renderer/ui/WeekChart/WeekChart'
 import { LoadingIndicator } from 'renderer/ui/LoadingIndicator/LoadingIndicator'
-import { formatDate, getWeekRange } from 'service/date'
+import { formatDate, formatISODate, getWeekRange } from 'service/date'
 import { DateRange } from 'model/DateRange'
 import { Header } from 'renderer/ui/Header/Header'
 import { useDebounce } from 'renderer/hooks/debounce'
@@ -33,6 +33,7 @@ export const Main = () => {
   const updateIssues = useCallback(() => {
     setIssues(undefined)
     getIssues(debouncedDateRange.start, debouncedDateRange.end).then(data => {
+      // TODO: Move merging issues with worklogs to a separate service
       const issueKeys = data.map(i => (i.worklog.total > i.worklog.maxResults ? i.key : undefined)).filter(Boolean)
 
       Promise.all<WorklogsPayload>(
@@ -53,7 +54,10 @@ export const Main = () => {
             ...i.worklog,
             worklogs: [...i.worklog.worklogs, ...(issueWorklogs[i.key] ? issueWorklogs[i.key] : [])]
               .filter(w => w.author.accountId === currentUser?.accountId)
-              .filter(w => w.started >= debouncedDateRange.start && w.started <= debouncedDateRange.end)
+              .filter(w => {
+                const startedIsoDate = formatISODate(w.started)
+                return startedIsoDate >= debouncedDateRange.start && startedIsoDate <= debouncedDateRange.end
+              })
               .filter((value, index, array) => array.findIndex(v => v.id === value.id) === index),
           },
         }))
