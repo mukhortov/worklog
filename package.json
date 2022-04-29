@@ -58,7 +58,7 @@
       "gatekeeperAssess": false,
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
-      "provisioningProfile": "assets/Worklog_Distributioin.provisionprofile",
+      "provisioningProfile": "assets/Worklog_Distribution.provisionprofile",
       "identity": "Petr Mukhortov (2S7328Q3CX)"
     },
     "mas": {
