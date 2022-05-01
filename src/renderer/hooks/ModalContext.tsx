@@ -3,12 +3,12 @@ import { Modal } from 'renderer/ui/Modal/Modal'
 import { Profile } from 'renderer/ui/Profile/Profile'
 import { AddWorklog } from 'renderer/ui/AddWorklog/AddWorklog'
 import { Login } from 'renderer/ui/Login/Login'
-import { WorklogEnriched } from 'model/Worklog'
+import { WorklogCreate } from 'model/Worklog'
 import { OnlineStatus } from 'renderer/ui/OnlineStatus/OnlineStatus'
 
 interface AddWorklogModalData {
   open: boolean
-  worklog?: WorklogEnriched
+  worklog?: WorklogCreate
 }
 
 export interface ModalSession {
@@ -55,7 +55,7 @@ export const ModalContextProvider = ({ children }: ModalContextProviderProps) =>
         <Profile />
       </Modal>
       <Modal
-        title={openAddWorklogModal?.worklog ? 'Edit worklog' : 'Add worklog'}
+        title={openAddWorklogModal?.worklog?.id ? 'Edit worklog' : 'Add worklog'}
         open={openAddWorklogModal.open}
         onClose={() => toggleAddWorklogModal({ open: false })}
       >

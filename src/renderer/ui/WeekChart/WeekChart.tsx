@@ -20,6 +20,11 @@ interface IntervalDay {
   worklogs?: WorklogEnriched[]
 }
 
+const worklogCreate = (date: string, hoursRemain: number) => ({
+  timeSpent: `${hoursRemain}h`,
+  started: DateTime.fromISO(date).plus({ hour: 9, minute: 30 }).toISO({ suppressSeconds: true, includeOffset: false }),
+})
+
 interface WorklogsProps {
   date: string
   worklogs: WorklogEnriched[]
@@ -75,21 +80,29 @@ const DayBar = ({ day }: DayBarProps) => {
     )
     .join(`\n----------\n`)
 
+  const workingHoursPerDay = jiraSettings?.workingHoursPerDay ?? 8 // TODO: Fix this in the context provider
   const today = DateTime.now().toISODate() === day.date
   const weekend = day.weekdayNumber === 6 || day.weekdayNumber === 7
   const dayPlaceholderHeight = 136
-  const height = Math.min(180, hoursSpent * (dayPlaceholderHeight / (jiraSettings?.workingHoursPerDay ?? 8))) // TODO: Fix this in the context provider
+  const height = Math.min(180, hoursSpent * (dayPlaceholderHeight / workingHoursPerDay))
   // TODO: Extract time spent formatting to a reusable method
   const formattedHoursSpent = Math.floor(hoursSpent * 100) / 100
+  const hoursRemain = workingHoursPerDay - hoursSpent
 
   const ref = useRef<HTMLDivElement | null>(null)
 
   const [showMenu, setShowMenu] = useState(false)
+  const { toggleAddWorklogModal } = useModalContext()
 
   return (
     <>
       <div className={cn([styles.day, weekend && styles.weekend, today && styles.today])} ref={ref}>
-        <div className={styles.dayPlaceholder} style={{ height: dayPlaceholderHeight }} />
+        <div
+          className={styles.dayPlaceholder}
+          style={{ height: dayPlaceholderHeight }}
+          onClick={() => toggleAddWorklogModal({ open: true, worklog: worklogCreate(day.date, hoursRemain) })}
+          title="Add worklog"
+        />
 
         {hoursSpent > 0 && (
           <div className={styles.hourBar} onClick={() => setShowMenu(true)}>

@@ -1,4 +1,5 @@
 import styles from './AddWorklog.sass'
+import { DateTime } from 'luxon'
 import { useCallback, useEffect, useState } from 'react'
 import { ipcRenderer } from 'electron'
 import { Button } from 'renderer/ui/Button/Button'
@@ -6,9 +7,8 @@ import { getISODateTime, getISOWeek } from 'service/date'
 import { SearchIssue } from 'model/Issue'
 import { Popover } from 'renderer/ui/Popover/Popover'
 import { useSessionContext } from 'renderer/hooks/SessionContext'
-import { DateTime } from 'luxon'
 import { useDebounce } from 'renderer/hooks/debounce'
-import { WorklogEnriched } from 'model/Worklog'
+import { WorklogCreate } from 'model/Worklog'
 import { FormFieldInput } from 'renderer/ui/Form/FormField'
 import { FormValidation } from 'model/FormValidation'
 
@@ -16,7 +16,7 @@ const formatTimeSpent = (time: string) => time.match(/[0-9]+[m|h|d|w]/g)?.join('
 
 interface AddWorklogProps {
   onClose: () => void
-  worklog?: WorklogEnriched
+  worklog?: WorklogCreate
 }
 
 export const AddWorklog = ({ onClose, worklog }: AddWorklogProps) => {
@@ -32,6 +32,8 @@ export const AddWorklog = ({ onClose, worklog }: AddWorklogProps) => {
   const [issueKeyStatus, setIssueKeyStatus] = useState<FormValidation>()
   const [timeSpentStatus, setTimeSpentStatus] = useState<FormValidation>()
   const [formStatus, setFormStatus] = useState<FormValidation>({ valid: false })
+
+  const editMode = worklog?.id !== undefined
 
   const minSearchQuery = 3
 
@@ -153,8 +155,8 @@ export const AddWorklog = ({ onClose, worklog }: AddWorklogProps) => {
 
   useEffect(() => {
     if (worklog) {
-      // Set form for editing worklog
-      setIssueKey(worklog.key)
+      // Prefill form with worklog data
+      setIssueKey(worklog?.key ?? '')
       setStarted(getISODateTime(worklog.started))
       setTimeSpent(worklog.timeSpent)
     }
@@ -181,7 +183,7 @@ export const AddWorklog = ({ onClose, worklog }: AddWorklogProps) => {
         value={searchQuery.length > 0 ? searchQuery : issueKey}
         onChange={event => onTypeSearch(event.target.value)}
         onFocus={getResentIssues}
-        disabled={worklog !== undefined}
+        disabled={editMode}
         onKeyDown={event => {
           if (event.key === 'Tab') {
             selectIssue(searchQuery, true)
@@ -230,7 +232,7 @@ export const AddWorklog = ({ onClose, worklog }: AddWorklogProps) => {
       />
 
       <div className={styles.actions}>
-        {worklog && (
+        {editMode && (
           <div className={styles.deleteButton}>
             <Button onClick={deleteWorklog} variant="danger">
               Delete
@@ -242,7 +244,7 @@ export const AddWorklog = ({ onClose, worklog }: AddWorklogProps) => {
           Cancel
         </Button>
         <Button
-          onClick={worklog ? editWorklog : addWorklog}
+          onClick={editMode ? editWorklog : addWorklog}
           disabled={formStatus?.valid === false}
           processing={formStatus?.processing}
         >

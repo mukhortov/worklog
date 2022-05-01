@@ -1,6 +1,13 @@
 import type { CurrentUser } from './CurrentUser'
 import type { IssueType, Project } from './Issue'
 
+export interface WorklogCreate {
+  key?: string
+  id?: string
+  started: string
+  timeSpent: string
+}
+
 export interface Worklog {
   id: string
   issueId: string
