@@ -12,7 +12,7 @@ import { WorklogCreate } from 'model/Worklog'
 import { FormFieldInput } from 'renderer/ui/Form/FormField'
 import { FormValidation } from 'model/FormValidation'
 
-const formatTimeSpent = (time: string) => time.match(/[0-9]+[m|h|d|w]/g)?.join(' ') ?? ''
+const formatTimeSpent = (time: string) => time.match(/\d*\.?\d+[m|h|d|w]/g)?.join(' ') ?? ''
 
 interface AddWorklogProps {
   onClose: () => void
