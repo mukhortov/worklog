@@ -28,12 +28,6 @@ import {
 
 let mainWindow: BrowserWindow | null = null
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`
-  console.log(msgTemplate(arg))
-  event.reply('ipc-example', msgTemplate('pong'))
-})
-
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support')
   sourceMapSupport.install()
@@ -172,27 +166,15 @@ ipcMain.handle('set-title', (_, { title }) => {
 
 ipcMain.handle('get-server-settings', (_, serverUrl) => serverInfo(serverUrl))
 
-ipcMain.handle('get-issues', (_, { startDate, endDate }) => {
-  console.log('[main]:', 'get-issues')
-  console.log({ startDate, endDate })
-  return getIssues(startDate, endDate)
-})
+ipcMain.handle('get-issues', (_, { startDate, endDate }) => getIssues(startDate, endDate))
 
 ipcMain.handle('get-issue-worklogs', (_, { issueKey, startDate, endDate }) => {
-  console.log('[main]:', 'get-issue-worklogs')
-  console.log({ issueKey, startDate, endDate })
   return getIssueWorklogs(issueKey, startDate, endDate)
 })
 
-ipcMain.handle('get-jira-settings', () => {
-  console.log('[main]:', 'get-jira-settings')
-  return getJiraSettings()
-})
+ipcMain.handle('get-jira-settings', () => getJiraSettings())
 
-ipcMain.handle('get-current-user', () => {
-  console.log('[main]:', 'get-current-user')
-  return getCurrentUser()
-})
+ipcMain.handle('get-current-user', () => getCurrentUser())
 
 ipcMain.handle('save-account', (_, { baseUrl, encodedKey }: Account) =>
   saveAccount(baseUrl, encodedKey).then(() =>
@@ -205,33 +187,18 @@ ipcMain.handle('save-account', (_, { baseUrl, encodedKey }: Account) =>
 
 ipcMain.handle('remove-account', () => removeAccount())
 
-ipcMain.handle('test-issue-key', (_, issueKey) => {
-  return testIssuesKey(issueKey)
-})
+ipcMain.handle('test-issue-key', (_, issueKey) => testIssuesKey(issueKey))
 
-ipcMain.handle('search-issues', (_, searchQuery) => {
-  console.log('[main]:', 'search-issue')
-  console.log(searchQuery)
-  return searchIssue(searchQuery)
-})
+ipcMain.handle('search-issues', (_, searchQuery) => searchIssue(searchQuery))
 
-ipcMain.handle('get-resent-issues', () => {
-  console.log('[main]:', 'get-resent-issues')
-  return getRecentIssues()
-})
+ipcMain.handle('get-resent-issues', () => getRecentIssues())
 
 ipcMain.handle('add-worklog', (_, { issueKey, started, timeSpent }) => {
-  console.log('[main]:', 'log-work')
-  console.log({ issueKey, started: formatLongISODateTime(started), timeSpent })
   return addWorklog(issueKey, formatLongISODateTime(started), timeSpent)
 })
 
 ipcMain.handle('edit-worklog', (_, { worklogId, issueKey, started, timeSpent }) => {
-  console.log({ worklogId, issueKey, started: formatLongISODateTime(started), timeSpent })
   return editWorklog(worklogId, issueKey, formatLongISODateTime(started), timeSpent)
 })
 
-ipcMain.handle('delete-worklog', (_, { worklogId, issueKey }) => {
-  console.log({ worklogId, issueKey })
-  return deleteWorklog(worklogId, issueKey)
-})
+ipcMain.handle('delete-worklog', (_, { worklogId, issueKey }) => deleteWorklog(worklogId, issueKey))

@@ -35,7 +35,6 @@ export const SessionContextProvider = ({ children }: SessionContextProviderProps
 
   useEffect(() => {
     ipcRenderer.invoke('get-current-user').then(currentUser => {
-      console.log('currentUser', currentUser)
       setCurrentUser(currentUser)
       if (currentUser) {
         ipcRenderer.invoke('get-jira-settings').then(setJiraSettings)
