@@ -203,7 +203,14 @@ export const AddWorklog = ({ onClose, worklog }: AddWorklogProps) => {
                     title={issue.summaryText}
                   >
                     {/* TODO: Fetch image with base auth */}
-                    <img src={`${jiraSettings?.baseUrl}${issue.img}`} />
+                    {/* <img src={`${jiraSettings?.baseUrl}${issue.img}`} /> */}
+                    {/* TODO: Temporary solution */}
+                    <div className={styles.image}>
+                      <div
+                        className={styles.imageContent}
+                        style={{ background: `url(${jiraSettings?.baseUrl}${issue.img})` }}
+                      />
+                    </div>
                     <strong>{issue.key}</strong>
                     {issue.summaryText}
                   </div>

@@ -14,7 +14,6 @@
   font-size: 12px
   margin: 0 4px
 
-
 .deleteButton
   margin-right: auto
 
@@ -39,3 +38,25 @@
   img
     width: 16px
     height: 16px
+
+  // TODO: Temporary solution
+  .image
+    flex: 0 0 auto
+    width: 16px
+    height: 16px
+    position: relative
+
+    &:before
+      content: ''
+      background: #eee
+      position: absolute
+      width: 14px
+      height: 14px
+      margin: 1px 0 0 1px
+      border-radius: 2px
+
+  .imageContent
+    position: relative
+    display: flex
+    width: inherit
+    height: inherit
