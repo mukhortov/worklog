@@ -1,7 +1,7 @@
 {
   "name": "Worklog",
   "description": "Jira Worklog app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
@@ -33,7 +33,7 @@
     ]
   },
   "build": {
-    "buildVersion": "5",
+    "buildVersion": "6",
     "productName": "Worklog",
     "appId": "com.mukhortov.worklog.app",
     "artifactName": "${productName}-${version}-${buildVersion}-${arch}.${ext}",
