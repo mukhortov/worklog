@@ -1,7 +1,7 @@
 {
   "name": "Worklog",
   "description": "Jira Worklog app",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
@@ -33,7 +33,7 @@
     ]
   },
   "build": {
-    "buildVersion": "7",
+    "buildVersion": "10",
     "productName": "Worklog",
     "appId": "com.mukhortov.worklog.app",
     "artifactName": "${productName}-${version}-${buildVersion}-${arch}.${ext}",
@@ -59,7 +59,8 @@
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
       "provisioningProfile": "assets/Worklog_Distribution.provisionprofile",
-      "identity": "Petr Mukhortov (2S7328Q3CX)"
+      "identity": "Petr Mukhortov (2S7328Q3CX)",
+      "mergeASARs": false
     },
     "mas": {
       "hardenedRuntime": true,
@@ -68,7 +69,8 @@
       "entitlementsInherit": "assets/entitlements.mas.inherit.plist",
       "entitlementsLoginHelper": "assets/entitlements.mas.helper.plist",
       "category": "public.app-category.productivity",
-      "identity": "Petr Mukhortov (2S7328Q3CX)"
+      "identity": "Petr Mukhortov (2S7328Q3CX)",
+      "mergeASARs": false
     },
     "dmg": {
       "contents": [
@@ -189,7 +191,7 @@
     "css-loader": "^6.7.1",
     "css-minimizer-webpack-plugin": "^3.4.1",
     "detect-port": "^1.3.0",
-    "electron": "^18.1.0",
+    "electron": "^18.2.0",
     "electron-builder": "23.0.3",
     "electron-devtools-installer": "^3.2.0",
     "electron-notarize": "^1.2.1",
