@@ -6,7 +6,6 @@
  * When running `yarn build` or `yarn build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import path from 'path'
 import { app, BrowserWindow, shell, ipcMain, nativeTheme, session } from 'electron'
 import { formatLongISODateTime } from '../service/date'
 import MenuBuilder from './menu'
@@ -57,21 +56,12 @@ const createWindow = async () => {
     await installExtensions()
   }
 
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets')
-
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths)
-  }
-
   mainWindow = new BrowserWindow({
     show: false,
     height: 400,
     width: 600,
     minHeight: 360,
     minWidth: 460,
-    icon: getAssetPath('icon.png'),
     webPreferences: {
       // preload: app.isPackaged ? path.join(__dirname, 'preload.js') : path.join(__dirname, '../../.erb/dll/preload.js'),
       nodeIntegration: true,
